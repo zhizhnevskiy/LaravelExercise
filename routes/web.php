@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/validate', [HomeController::class, 'index'])->name('home');
 
+Route::get('/validate', [HomeController::class, 'index'])->name('home');
 Route::post('/validate', [ValidateController::class, 'index'])->name('validate');

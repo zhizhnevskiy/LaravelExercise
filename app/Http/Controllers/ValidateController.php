@@ -25,9 +25,12 @@ class ValidateController extends Controller
             $validate = new ValidateService();
             $result = json_encode($validate->index($file));
 
+            /**
+             * Store json file and prepare to download this file
+             */
             Storage::put('public/result.json', $result);
-
             $path = Storage::disk('local')->path('public/result.json');
+
             return response()->download($path, basename($path));
         }
     }

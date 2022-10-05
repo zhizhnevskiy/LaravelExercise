@@ -14,7 +14,7 @@ $ npm run watch
 $ php artisan storage:link
 ```
 
-### Laravel CLI
+### Laravel CLI:
 ```bash
 # Run command for validate users.csv to result.json 
 # and see result in terminal

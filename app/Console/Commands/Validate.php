@@ -41,6 +41,9 @@ class Validate extends Command
     {
         $file = app_path() . '/Http/Data/users.csv';
 
+        /**
+         * Send file to ValidateService for get result
+         */
         $validate = new ValidateService();
         $result = $validate->index($file);
 
