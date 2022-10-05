@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Service\ValidateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ValidateController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         /**
          * Validate request
          */
@@ -14,25 +17,18 @@ class ValidateController extends Controller
             'validation' => 'required|file|mimes:csv,txt',
         ]);
 
-        /**
-         * Read the contents of the file, form the data,
-         * the trim function is applied to the element of the array used
-         * (to extract whitespace patterns)
-         */
-        $file = $request->file('validation');
-        $rows = array_map('trim', file($file));
+        if ($request->hasFile('validation')) {
+            /**
+             * Send file to ValidateService for get result
+             */
+            $file = $request->file('validation');
+            $validate = new ValidateService();
+            $result = json_encode($validate->index($file));
 
-        /**
-         * Delete the first line of the name of the fields:
-         * email;Age range;Salary bracket;Location;Contract type;Department;Seniority
-         */
-        array_shift($rows);
+            Storage::put('public/result.json', $result);
 
-        foreach($rows as $key=>$row){
-            // теперь строку вида 1,User1,18 разделяем по запятой, удаляя лишние пробелы
-            $params = array_map('trim', explode(';', $row));
-
+            $path = Storage::disk('local')->path('public/result.json');
+            return response()->download($path, basename($path));
         }
-
     }
 }

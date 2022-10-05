@@ -10,4 +10,6 @@ $ npm install
 $ php artisan serve
 # Start watch mode
 $ npm run watch
+# Create link to public
+$ php artisan storage:link
 ```
