@@ -40,7 +40,7 @@ class Format extends Command
     public function handle(): int
     {
         $fileName = $this->argument('file');
-        $locale = $this->argument('--locale');
+        $locale = $this->option('locale');
         $filePath = public_path('storage') . '/csv/' . $fileName;
 
         if (file_exists($filePath)){

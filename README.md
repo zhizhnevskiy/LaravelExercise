@@ -20,7 +20,7 @@ Run command in terminal for format 'users.csv' to 'result.json',
 store this new file 'result.json' in storage
 and see result in terminal
 ```bash
-$ php artisan data:validate user.csv
+$ php artisan data:format users.csv --locale=en
 ```
 
 ### Version 2 (with Front End):

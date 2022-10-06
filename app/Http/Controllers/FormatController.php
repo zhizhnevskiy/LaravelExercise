@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FormatRequest;
 use App\Http\Service\FormatService;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FormatController extends Controller
 {
@@ -15,7 +15,7 @@ class FormatController extends Controller
         //
     }
 
-    public function format(FormatRequest $request): BinaryFileResponse
+    public function format(FormatRequest $request): StreamedResponse
     {
         /**
          * Send file to ValidateService for get result

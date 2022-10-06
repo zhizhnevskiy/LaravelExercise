@@ -35,7 +35,7 @@ class FormatService
         /**
          * Get filters for attributes
          */
-        $filters = json_decode(Storage::disk('filters')->get('filters.json'));
+        $filters = (array) json_decode(Storage::disk('filters')->get('filters.json'));
 
         /**
          * Format data
@@ -64,7 +64,7 @@ class FormatService
                     $foundedValueIndex = array_search($value, array_column($filterValues, $locale));
 
                     if (array_key_exists($foundedValueIndex, $filterValues)) {
-                        $formattedAttrs[] = $filterValues[]->_id;
+                        $formattedAttrs[] = $filterValues[$foundedValueIndex]->_id;
                     }
                 }
             }
