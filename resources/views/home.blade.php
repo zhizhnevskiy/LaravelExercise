@@ -20,7 +20,7 @@
             <div class="form-group">
                 <label for="avatar">Choose your file for validation:</label>
                 <input type="file"
-                       class="mt-2 form-control @error('validation') is-invalid @enderror"
+                       class="mt-2 form-control @error('file') is-invalid @enderror"
                        id="file"
                        name="file"
                 >
