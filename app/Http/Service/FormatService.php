@@ -59,10 +59,10 @@ class FormatService
                     )
                 );
 
-                if (!array_key_exists($foundFilterIndex, $filters)) {
+                if (array_key_exists($foundFilterIndex, $filters)) {
                     $filterValues = $filters[$foundFilterIndex]['values'];
 
-                    $formattedAttrs['attributes'] = array_search($value, array_column($filterValues, $locale));
+                    $formattedAttrs['attributes'][] = $filterValues[array_search($value, array_column($filterValues, $locale))]->_id;
                 }
             }
 
