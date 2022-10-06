@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Storage;
 
 class FormatService
 {
-    public function format($file){
+    public function format($file)
+    {
         /**
          * Read the contents of the file, form the data,
          * the trim function is applied to the element of the array used
@@ -27,7 +28,7 @@ class FormatService
         $pathEmails = app_path() . '/Http/Enums/emails.json';
         $emails = json_decode(file_get_contents($pathEmails));
         $arrayEmails = [];
-        foreach ($emails as $email){
+        foreach ($emails as $email) {
             $arrayEmails[$email->email] = $email->_id;
         }
 
@@ -41,14 +42,14 @@ class FormatService
          * Format data
          */
         $data = [];
-        foreach($rows as $row){
+        foreach ($rows as $row) {
             $params = array_map('trim', explode(';', $row));
 
             $email = $arrayEmails[$params[0]] ?? '';
 
-            foreach ($filters as $filter){
+            foreach ($filters as $filter) {
                 foreach ($filter->values as $value) {
-                    switch ($value->en){
+                    switch ($value->en) {
                         case $params[1]:
                             $ageRange = $value->_id;
                             break;
