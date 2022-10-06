@@ -54,7 +54,7 @@ return [
         ],
 
         'filters' => [
-            'drivers' => 'local',
+            'driver' => 'local',
             'root' => storage_path('filters'),
         ],
     ],

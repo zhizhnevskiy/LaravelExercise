@@ -52,16 +52,18 @@ class FormatService
 
             $formattedAttrs = [];
             foreach ($attrs as $header => $value) {
-                $foundFilter = array_search(
+                $foundFilterIndex = array_search(
                     $header,
                     array_column(
                         array_column($filters, 'name'), $locale
                     )
                 );
 
-                $filterValues = $foundFilter['values'];
+                if (!array_key_exists($foundFilterIndex, $filters)) {
+                    $filterValues = $filters[$foundFilterIndex]['values'];
 
-                $formattedAttrs['attributes'] = array_search($value, array_column($filterValues, $locale));
+                    $formattedAttrs['attributes'] = array_search($value, array_column($filterValues, $locale));
+                }
             }
 
             $data[] = [
