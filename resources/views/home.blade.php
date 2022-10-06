@@ -8,8 +8,6 @@
     <meta name="generator" content="Hugo 0.101.0">
     <title>Laravel Exercise</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/album/">
-
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 </head>
 <body>
