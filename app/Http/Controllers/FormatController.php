@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ValidateRequest;
+use App\Http\Requests\FormatRequest;
 use App\Http\Service\FormatService;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class ValidateController extends Controller
+class FormatController extends Controller
 {
 
     public function __construct(private readonly FormatService $formatService)
@@ -15,7 +15,7 @@ class ValidateController extends Controller
         //
     }
 
-    public function validateData(ValidateRequest $request): BinaryFileResponse
+    public function format(FormatRequest $request): BinaryFileResponse
     {
         /**
          * Send file to ValidateService for get result
@@ -26,8 +26,7 @@ class ValidateController extends Controller
         /**
          * Return file with download
          */
-        $path = Storage::disk('local')->path('public/json/result.json');
-        return response()->download($path, basename($path));
+        return Storage::download('public/json/result.json', 'result.json');
     }
 
 }

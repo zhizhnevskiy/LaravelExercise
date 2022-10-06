@@ -15,16 +15,16 @@
 <main>
     <div class="container mt-4">
         <h3>Laravel Exercise</h3>
-        <form method="post" action="{{ route('validate') }}" enctype="multipart/form-data">
+        <form method="post" action="{{ route('format') }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="avatar">Choose your file for validation:</label>
                 <input type="file"
                        class="mt-2 form-control @error('validation') is-invalid @enderror"
-                       id="validation"
-                       name="validation"
+                       id="file"
+                       name="file"
                 >
-                @error('validation')
+                @error('file')
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>

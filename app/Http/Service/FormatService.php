@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class FormatService
 {
-    public function format($file)
+    public function format($file, $locale = 'en')
     {
         /**
          * Read the contents of the file, form the data,
@@ -20,13 +20,13 @@ class FormatService
          * Delete the first line of the name of the fields:
          * email;Age range;Salary bracket;Location;Contract type;Department;Seniority
          */
+        $headers = array_map('trim', explode(';', $rows[0]));
         array_shift($rows);
 
         /**
          * Get filters for emails
          */
-        $pathEmails = app_path() . '/Http/Enums/emails.json';
-        $emails = json_decode(file_get_contents($pathEmails));
+        $emails = json_decode(Storage::get('storage/filters/emails.json'));
         $arrayEmails = [];
         foreach ($emails as $email) {
             $arrayEmails[$email->email] = $email->_id;
@@ -35,8 +35,7 @@ class FormatService
         /**
          * Get filters for attributes
          */
-        $pathFilters = app_path() . '/Http/Enums/filters.json';
-        $filters = json_decode(file_get_contents($pathFilters));
+        $filters = json_decode(Storage::get('storage/filters/filters.json'));
 
         /**
          * Format data
@@ -44,44 +43,30 @@ class FormatService
         $data = [];
         foreach ($rows as $row) {
             $params = array_map('trim', explode(';', $row));
+            $attrs = [];
+            foreach ($headers as $key => $value) {
+                $attrs[$value] = $params[$key];
+            }
 
             $email = $arrayEmails[$params[0]] ?? '';
 
-            foreach ($filters as $filter) {
-                foreach ($filter->values as $value) {
-                    switch ($value->en) {
-                        case $params[1]:
-                            $ageRange = $value->_id;
-                            break;
-                        case $params[2]:
-                            $salaryBracket = $value->_id;
-                            break;
-                        case $params[3]:
-                            $location = $value->_id;
-                            break;
-                        case $params[4]:
-                            $contactType = $value->_id;
-                            break;
-                        case $params[5]:
-                            $department = $value->_id;
-                            break;
-                        case $params[6]:
-                            $seniority = $value->_id;
-                            break;
-                    }
-                }
+            $formattedAttrs = [];
+            foreach ($attrs as $header => $value) {
+                $foundFilter = array_search(
+                    $header,
+                    array_column(
+                        array_column($filters, 'name'), $locale
+                    )
+                );
+
+                $filterValues = $foundFilter['values'];
+
+                $formattedAttrs['attributes'] = array_search($value, array_column($filterValues, $locale));
             }
 
             $data[] = [
                 'id' => $email,
-                'attributes' => [
-                    $ageRange ?? '',
-                    $salaryBracket ?? '',
-                    $location ?? '',
-                    $contactType ?? '',
-                    $department ?? '',
-                    $seniority ?? '',
-                ]
+                'attributes' => $formattedAttrs,
             ];
         }
 

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ValidateController;
+use App\Http\Controllers\FormatController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,5 +17,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 
-Route::get('/validate', [HomeController::class, 'home'])->name('home');
-Route::post('/validate', [ValidateController::class, 'validateData'])->name('validate');
+Route::get('/format', [HomeController::class, 'home'])->name('home');
+Route::post('/format', [FormatController::class, 'format'])->name('format');
