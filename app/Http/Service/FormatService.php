@@ -3,10 +3,11 @@
 namespace App\Http\Service;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class ValidateService
+class FormatService
 {
-    public function index($file){
+    public function format($file){
         /**
          * Read the contents of the file, form the data,
          * the trim function is applied to the element of the array used
@@ -75,6 +76,12 @@ class ValidateService
                 ]
             ];
         }
+
+        /**
+         * Store json file and prepare to download this file Delete
+         */
+        Storage::put('public/json/result.json', json_encode($data));
+
         return $data;
     }
 }

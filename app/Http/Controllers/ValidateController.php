@@ -2,36 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Service\ValidateService;
-use Illuminate\Http\Request;
+use App\Http\Requests\ValidateRequest;
+use App\Http\Service\FormatService;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ValidateController extends Controller
 {
-    public function index(Request $request)
+
+    public function __construct(private readonly FormatService $formatService)
+    {
+        //
+    }
+
+    public function validateData(ValidateRequest $request): BinaryFileResponse
     {
         /**
-         * Validate request
+         * Send file to ValidateService for get result
          */
-        $request->validate([
-            'validation' => 'required|file|mimes:csv,txt',
-        ]);
+        $file = $request->file('validation');
+        $this->formatService->format($file);
 
-        if ($request->hasFile('validation')) {
-            /**
-             * Send file to ValidateService for get result
-             */
-            $file = $request->file('validation');
-            $validate = new ValidateService();
-            $result = json_encode($validate->index($file));
-
-            /**
-             * Store json file and prepare to download this file
-             */
-            Storage::put('public/result.json', $result);
-            $path = Storage::disk('local')->path('public/result.json');
-
-            return response()->download($path, basename($path));
-        }
+        /**
+         * Return file with download
+         */
+        $path = Storage::disk('local')->path('public/json/result.json');
+        return response()->download($path, basename($path));
     }
+
 }

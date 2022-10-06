@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Service\ValidateService;
+use App\Http\Service\FormatService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,7 +27,7 @@ class Validate extends Command
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(private readonly FormatService $formatService)
     {
         parent::__construct();
     }
@@ -37,15 +37,14 @@ class Validate extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        $file = app_path() . '/Http/Data/users.csv';
+        $file = public_path('storage') . '/csv/users.csv';
 
         /**
-         * Send file to ValidateService for get result
+         * Send file to ValidateService for store file and show result
          */
-        $validate = new ValidateService();
-        $result = $validate->index($file);
+        $result = $this->formatService->format($file);
 
         echo json_encode($result, JSON_PRETTY_PRINT);
 
