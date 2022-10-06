@@ -26,7 +26,7 @@ class FormatService
         /**
          * Get filters for emails
          */
-        $emails = json_decode(Storage::get('storage/filters/emails.json'));
+        $emails = json_decode(Storage::disk('filters')->get('emails.json'));
         $arrayEmails = [];
         foreach ($emails as $email) {
             $arrayEmails[$email->email] = $email->_id;
@@ -35,7 +35,7 @@ class FormatService
         /**
          * Get filters for attributes
          */
-        $filters = json_decode(Storage::get('storage/filters/filters.json'));
+        $filters = json_decode(Storage::disk('filters')->get('filters.json'));
 
         /**
          * Format data

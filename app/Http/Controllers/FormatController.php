@@ -20,7 +20,7 @@ class FormatController extends Controller
         /**
          * Send file to ValidateService for get result
          */
-        $file = $request->file('validation');
+        $file = $request->file('file');
         $this->formatService->format($file);
 
         /**
