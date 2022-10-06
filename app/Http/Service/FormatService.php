@@ -38,7 +38,7 @@ class FormatService
         $filters = json_decode(file_get_contents($pathFilters));
 
         /**
-         * Starting validation
+         * Starting format data
          */
         $data = [];
         foreach($rows as $row){
@@ -78,7 +78,7 @@ class FormatService
         }
 
         /**
-         * Store json file and prepare to download this file Delete
+         * Store json file and prepare to download this file
          */
         Storage::put('public/json/result.json', json_encode($data));
 

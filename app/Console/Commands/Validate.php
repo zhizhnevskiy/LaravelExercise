@@ -13,7 +13,7 @@ class Validate extends Command
      *
      * @var string
      */
-    protected $signature = 'data:validate';
+    protected $signature = 'data:validate {file : File for Validate and Format}';
 
     /**
      * The console command description.
@@ -35,18 +35,22 @@ class Validate extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return integer
      */
     public function handle(): int
     {
-        $file = public_path('storage') . '/csv/users.csv';
+        $fileName = $this->argument('file');
+        $filePath = public_path('storage') . '/csv/' . $fileName;
 
-        /**
-         * Send file to ValidateService for store file and show result
-         */
-        $result = $this->formatService->format($file);
-
-        echo json_encode($result, JSON_PRETTY_PRINT);
+        if(file_exists($filePath)){
+            /**
+             * Send file to ValidateService for store file and show result
+             */
+            $result = $this->formatService->format($filePath);
+            echo json_encode($result, JSON_PRETTY_PRINT);
+        } else {
+            echo "File not Found!\n";
+        }
 
         return 0;
     }
