@@ -38,7 +38,7 @@ class FormatService
         $filters = json_decode(file_get_contents($pathFilters));
 
         /**
-         * Starting format data
+         * Format data
          */
         $data = [];
         foreach($rows as $row){
@@ -48,18 +48,25 @@ class FormatService
 
             foreach ($filters as $filter){
                 foreach ($filter->values as $value) {
-                    if($value->en == $params[1]){
-                        $ageRange = $value->_id;
-                    } elseif ($value->en == $params[2]){
-                        $salaryBracket = $value->_id;
-                    } elseif ($value->en == $params[3]){
-                        $location = $value->_id;
-                    } elseif ($value->en == $params[4]){
-                        $contactType = $value->_id;
-                    } elseif ($value->en == $params[5]){
-                        $department = $value->_id;
-                    } elseif ($value->en == $params[6]){
-                        $seniority = $value->_id;
+                    switch ($value->en){
+                        case $params[1]:
+                            $ageRange = $value->_id;
+                            break;
+                        case $params[2]:
+                            $salaryBracket = $value->_id;
+                            break;
+                        case $params[3]:
+                            $location = $value->_id;
+                            break;
+                        case $params[4]:
+                            $contactType = $value->_id;
+                            break;
+                        case $params[5]:
+                            $department = $value->_id;
+                            break;
+                        case $params[6]:
+                            $seniority = $value->_id;
+                            break;
                     }
                 }
             }
@@ -78,7 +85,7 @@ class FormatService
         }
 
         /**
-         * Store json file and prepare to download this file
+         * Store json file and return formatted data
          */
         Storage::put('public/json/result.json', json_encode($data));
 
