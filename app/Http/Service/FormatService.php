@@ -59,7 +59,7 @@ class FormatService
                     )
                 );
 
-                if (array_key_exists($foundFilterIndex, $filters)) {
+                if (array_key_exists($foundFilterIndex, $filters) && is_int($foundFilterIndex)) {
                     $filterValues = (array) $filters[$foundFilterIndex]->values;
                     $foundedValueIndex = array_search($value, array_column($filterValues, $locale));
 
